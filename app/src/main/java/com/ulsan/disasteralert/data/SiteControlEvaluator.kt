@@ -31,6 +31,8 @@ object SiteControlEvaluator {
     data class Observation(
         val hourlyRainMm: Double,
         val cumulativeRainMm: Double,
+        /** 15분 강수량 — AWS 매분자료에서 산출. 지하공간 기준 판정에 사용 */
+        val rain15minMm: Double? = null,
         /** 50mm/h 이상이 지속되고 있는지 */
         val sustainedHeavyRate: Boolean = false,
         /** 산림청 토양함수지수 (%) — 산사태정보시스템 연계 필요 */

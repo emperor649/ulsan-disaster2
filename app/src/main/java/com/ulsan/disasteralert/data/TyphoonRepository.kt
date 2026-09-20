@@ -70,11 +70,11 @@ object TyphoonRepository {
             val dateStr = fmt.format(cal.time)
             runCatching {
                 ApiClient.tideApi.getTidePrediction(tideKey, station.code, dateStr)
-                    .result?.data.orEmpty()
+                    .response?.body?.items?.item.orEmpty()
                     .forEach { item ->
-                        val timeStr = item.tph_time ?: return@forEach
-                        val level = item.tph_level?.toDoubleOrNull()?.toInt() ?: return@forEach
-                        val code = item.hl_code ?: return@forEach
+                        val timeStr = item.effectiveTime ?: return@forEach
+                        val level = item.effectiveLevel?.toDoubleOrNull()?.toInt() ?: return@forEach
+                        val code = item.effectiveCode ?: return@forEach
                         val millis = runCatching {
                             SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA).parse(timeStr)?.time
                         }.getOrNull() ?: return@forEach

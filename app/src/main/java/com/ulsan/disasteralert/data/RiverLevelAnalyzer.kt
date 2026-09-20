@@ -51,7 +51,7 @@ object RiverLevelAnalyzer {
             riseRateMPerHour = riseRate,
             minutesToNextStage = minutesToNext,
             percentToDangerLevel = percentToDanger,
-            reachesEvacuationRatio = (current / station.dangerLevel) >= OfficialCriteria.EVAC_LEVEL_RATIO,
+            reachesEvacuationRatio = (current / station.dangerLevel) >= OfficialCriteria.RV_EVAC_LEVEL_RATIO,
             observedAtMillis = latest.observedAtMillis
         )
     }
