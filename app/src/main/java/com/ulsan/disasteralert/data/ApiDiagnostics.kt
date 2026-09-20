@@ -362,8 +362,7 @@ object ApiDiagnostics {
         if (key.isBlank()) return Result(
             "국립해양조사원 · 조석예보", Status.NO_KEY,
             "서비스키가 없습니다",
-            fixHint = "data.go.kr에서 '국립해양조사원_조석예보(고,저조)' 활용신청
-" +
+            fixHint = "data.go.kr에서 '국립해양조사원_조석예보(고,저조)' 활용신청\n" +
                     "local.properties에 TIDE_SERVICE_KEY 추가"
         )
 
@@ -382,8 +381,7 @@ object ApiDiagnostics {
                     Result(
                         "국립해양조사원 · 조석예보", Status.OK,
                         "정상 (관측소 ${station.code}, 오늘 ${items.size}건 · 만조 ${highs}회)",
-                        sampleData = items.take(4).joinToString("
-") {
+                        sampleData = items.take(4).joinToString("\n") {
                             "  ${it.effectiveTime} · ${it.effectiveLevel}cm · ${it.effectiveCode}"
                         }
                     )
@@ -391,11 +389,9 @@ object ApiDiagnostics {
                 code == "00" -> Result(
                     "국립해양조사원 · 조석예보", Status.NO_DATA,
                     "응답은 정상이나 데이터가 없습니다",
-                    fixHint = "관측소 코드 ${station.code}가 울산이 아닐 수 있습니다.
-" +
-                            "활용가이드 hwp의 관측소 코드표에서 울산 코드를 확인해 교체하세요.
-" +
-                            "⚠️ 이 값이 틀리면 만조 겹침 판정이 전부 무의미해집니다."
+                    fixHint = "관측소 코드 ${station.code}(울산)로 조회했으나 데이터가 없습니다.\n" +
+                            "날짜 파라미터 형식(yyyyMMdd) 또는 응답 필드명을 확인하세요.\n" +
+                            "활용가이드 hwp의 출력결과 항목과 대조가 필요합니다."
                 )
                 else -> Result(
                     "국립해양조사원 · 조석예보", Status.AUTH_FAILED,
@@ -407,8 +403,7 @@ object ApiDiagnostics {
             Result(
                 "국립해양조사원 · 조석예보", Status.NETWORK_ERROR,
                 e.message ?: "호출 실패",
-                fixHint = "엔드포인트는 1192136/tideFcstHghLw/GetTideFcstHghLwApiService 입니다.
-" +
+                fixHint = "엔드포인트는 1192136/tideFcstHghLw/GetTideFcstHghLwApiService 입니다.\n" +
                         "응답 필드명이 다르면 활용가이드 hwp와 대조가 필요합니다."
             )
         }
