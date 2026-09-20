@@ -73,8 +73,9 @@ object CompositeRiskCalculator {
         // 3) 상습 침수지 임박 가산
         val atRisk = VulnerabilityAnalyzer.hotspotsAtRisk(district, hourlyRain, cumulativeRainMm)
         atRisk.forEach { (spot, percent) ->
+            // baseWeight는 Int, 나머지 분기는 Double이라 타입을 맞춰야 한다
             score += when {
-                percent >= 100 -> spot.hotspotType.baseWeight
+                percent >= 100 -> spot.hotspotType.baseWeight.toDouble()
                 percent >= 90 -> spot.hotspotType.baseWeight * 0.6
                 else -> spot.hotspotType.baseWeight * 0.3
             }
