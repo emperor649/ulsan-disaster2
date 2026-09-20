@@ -1,0 +1,65 @@
+name: APK 빌드
+
+# 파일을 올리거나 수정하면 자동으로 빌드됩니다.
+# Actions 탭에서 수동 실행도 가능합니다.
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 소스 가져오기
+        uses: actions/checkout@v4
+
+      # AGP 8.2는 JDK 17이 필요합니다
+      - name: JDK 17 설치
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Gradle 준비
+        uses: gradle/actions/setup-gradle@v3
+
+      # zip에 gradle-wrapper.jar가 없어도 여기서 만들어집니다
+      - name: Gradle Wrapper 생성
+        run: gradle wrapper --gradle-version 8.5
+
+      # API 키를 Secrets에서 주입합니다.
+      # Secrets를 등록하지 않아도 빈 값으로 빌드됩니다 (앱은 켜지되 실시간 기능만 비활성).
+      - name: local.properties 생성
+        run: |
+          cat > local.properties << 'PROPS'
+          KMA_SERVICE_KEY=${{ secrets.KMA_SERVICE_KEY }}
+          TIDE_SERVICE_KEY=${{ secrets.TIDE_SERVICE_KEY }}
+          KMA_APIHUB_KEY=${{ secrets.KMA_APIHUB_KEY }}
+          DISASTER_SERVICE_KEY=${{ secrets.DISASTER_SERVICE_KEY }}
+          FLOOD_SERVICE_KEY=${{ secrets.FLOOD_SERVICE_KEY }}
+          PROPS
+
+      - name: 빌드 실행
+        run: ./gradlew assembleDebug --stacktrace
+
+      # 빌드 성공 시 APK를 다운로드 가능하게 올립니다
+      - name: APK 업로드
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: 기상재난알림-apk
+          path: app/build/outputs/apk/debug/*.apk
+          retention-days: 30
+
+      # 실패해도 로그는 남깁니다 — 오류 확인용
+      - name: 실패 로그 업로드
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: 빌드실패-로그
+          path: |
+            app/build/reports/
+            build/reports/
+          retention-days: 7

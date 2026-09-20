@@ -1,0 +1,19 @@
+# API 키 — 절대 커밋 금지
+local.properties
+local.properties.example
+
+# 빌드 산출물
+.gradle/
+build/
+app/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# IDE
+*.iml
+.idea/
+.DS_Store
+
+# Firebase
+app/google-services.json

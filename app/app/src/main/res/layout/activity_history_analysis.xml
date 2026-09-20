@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/text_district"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="지역 취약도"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#1565C0" />
+
+        <TextView
+            android:id="@+id/text_vulnerability_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"
+            android:lineSpacingExtra="3dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="현재 강수 현황"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#1565C0" />
+
+        <TextView
+            android:id="@+id/text_current_rain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"
+            android:lineSpacingExtra="3dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="과거 사례 대비 진행률"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#1565C0" />
+
+        <LinearLayout
+            android:id="@+id/container_similar_events"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="상습 침수 지점"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#1565C0" />
+
+        <LinearLayout
+            android:id="@+id/container_hotspots"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="과거 재해 이력"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#1565C0" />
+
+        <LinearLayout
+            android:id="@+id/container_past_events"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+</ScrollView>
