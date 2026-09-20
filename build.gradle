@@ -1,0 +1,27 @@
+// Top-level build file
+// AGP 8.x + Gradle 8.5 조합. Android Studio Hedgehog(2023.1) 이상 필요.
+buildscript {
+    ext.kotlin_version = "1.9.22"
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:8.2.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        // Firebase 사용 시 주석 해제
+        // classpath "com.google.gms:google-services:4.4.1"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// Gradle 8에서 rootProject.buildDir이 deprecated 되어 layout.buildDirectory 사용
+tasks.register('clean', Delete) {
+    delete rootProject.layout.buildDirectory
+}
