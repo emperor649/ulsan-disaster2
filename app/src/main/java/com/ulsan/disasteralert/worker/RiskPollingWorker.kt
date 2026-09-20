@@ -8,6 +8,7 @@ import com.ulsan.disasteralert.data.*
 import com.ulsan.disasteralert.network.ApiClient
 import com.ulsan.disasteralert.notification.NotificationHelper
 import com.ulsan.disasteralert.util.RainAccumulator
+import com.ulsan.disasteralert.util.districtOf
 
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,7 +28,8 @@ class RiskPollingWorker(
     override suspend fun doWork(): Result {
         return try {
             val region = inputData.getString(KEY_REGION_NAME) ?: return Result.failure()
-            val district = inputData.getString(KEY_DISTRICT) ?: region
+            // 저장된 값이 "울산 남구" 형태일 수 있으므로 정규화한다
+            val district = districtOf(inputData.getString(KEY_DISTRICT) ?: region)
             val nx = inputData.getInt(KEY_NX, -1)
             val ny = inputData.getInt(KEY_NY, -1)
             if (nx < 0 || ny < 0) return Result.failure()
@@ -208,6 +210,7 @@ class RiskPollingWorker(
                 siteObservation = SiteControlEvaluator.Observation(
                     hourlyRainMm = precipitation?.hourlyRainMm ?: 0.0,
                     cumulativeRainMm = rainSummary.cumulative24h,
+                    rain15minMm = rain15min,
                     sustainedHeavyRate = (precipitation?.hourlyRainMm ?: 0.0) >= 50.0 &&
                             rainSummary.rainDurationHours >= 1,
                     typhoonOrHeavyRainWarning = warnings.any {

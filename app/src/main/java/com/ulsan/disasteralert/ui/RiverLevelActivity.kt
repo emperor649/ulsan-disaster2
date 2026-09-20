@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.ulsan.disasteralert.BuildConfig
 import com.ulsan.disasteralert.data.*
+import com.ulsan.disasteralert.util.districtOf
 import com.ulsan.disasteralert.databinding.ActivityRiverLevelBinding
 import com.ulsan.disasteralert.network.ApiClient
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +30,7 @@ class RiverLevelActivity : AppCompatActivity() {
         binding = ActivityRiverLevelBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val district = intent.getStringExtra(EXTRA_DISTRICT)
+        val district = intent.getStringExtra(EXTRA_DISTRICT)?.let { districtOf(it) }
         loadRiverLevels(district)
     }
 

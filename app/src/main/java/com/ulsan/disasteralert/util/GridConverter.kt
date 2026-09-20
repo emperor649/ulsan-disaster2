@@ -87,3 +87,22 @@ object UlsanGridPresets {
 
     val districts = listOf("중구", "남구", "동구", "북구", "울주군")
 }
+
+/**
+ * 표시 이름("울산 남구")에서 구·군 이름("남구")을 뽑아낸다.
+ *
+ * 화면에는 "울산 남구"로 보여주지만, 데이터 매칭은 "남구"로 해야 한다.
+ * 이 변환을 빼먹으면 통제지점·과거이력·AWS 지점이 전부 0으로 나온다.
+ */
+fun districtOf(regionName: String): String {
+    // 프리셋에 등록된 이름이면 그대로 매핑
+    UlsanGridPresets.presets.firstOrNull { it.displayName == regionName }
+        ?.let { return it.district }
+
+    // "울산 XX" 형태면 뒤쪽만
+    val trimmed = regionName.trim()
+    listOf("울산광역시", "울산시", "울산").forEach { prefix ->
+        if (trimmed.startsWith(prefix)) return trimmed.removePrefix(prefix).trim()
+    }
+    return trimmed
+}

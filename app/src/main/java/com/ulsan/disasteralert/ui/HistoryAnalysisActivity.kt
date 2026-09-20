@@ -5,6 +5,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.ulsan.disasteralert.data.*
+import com.ulsan.disasteralert.util.districtOf
 import com.ulsan.disasteralert.databinding.ActivityHistoryAnalysisBinding
 import com.ulsan.disasteralert.util.RainAccumulator
 
@@ -24,8 +25,10 @@ class HistoryAnalysisActivity : AppCompatActivity() {
         binding = ActivityHistoryAnalysisBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val district = intent.getStringExtra(EXTRA_DISTRICT) ?: "중구"
-        binding.textDistrict.text = district
+        // "울산 남구"가 그대로 넘어와도 "남구"로 정규화한다
+        val raw = intent.getStringExtra(EXTRA_DISTRICT) ?: "중구"
+        val district = districtOf(raw)
+        binding.textDistrict.text = raw
 
         renderVulnerability(district)
         renderCurrentComparison(district)
